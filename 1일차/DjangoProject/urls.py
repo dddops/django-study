@@ -19,6 +19,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from django.urls import path
 
+from bookmark import views
+
 movie_list = [
     {'title' : '파묘', "director": '장재현'},
     {'title' : '웡카', "director": '폴킹'},
@@ -64,11 +66,13 @@ def gugu(request, dan):
     return render(request, '../templates/gugu.html', context)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('book_list/', book_list),
-    path('book_list/<int:num>/', book),
-    path('language/<str:lang>', language),
-    path('movie/',movies),
-    path('movie/<int:index>/', movie_detail),
-    path('gugu/<int:dan>/',gugu),
+    # path('', index, name='index'),
+    # path('book_list/', book_list),
+    # path('book_list/<int:num>/', book),
+    # path('language/<str:lang>', language),
+    # path('movie/',movies),
+    # path('movie/<int:index>/', movie_detail),
+    # path('gugu/<int:dan>/',gugu),
+    path('bookmark/', views.bookmark_list),
+    path('bookmark/<int:pk>/', views.bookmark_detail),
 ]
