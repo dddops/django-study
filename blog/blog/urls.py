@@ -1,5 +1,5 @@
 """
-URL configuration for todo project.
+URL configuration for blog project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -16,16 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import login
-from totododo import views as tododoviews
-from login import views
-
+from blogapp import views
+from member import views as member_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', tododoviews.todo_list, name='todo_list'),
-    path('<int:todo_id>/', tododoviews.todo_info),
+    path('', views.blog_list, name='blog_list'),
+    path('<int:pk>/', views.blog_detail, name='blog_detail'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', login.views.sign_up, name='signup'),
-    path('login/', login.views.login, name='login'),
+    path('signup/', member_views.sign_up, name='sign_up'),
+    path('login/', member_views.login, name='login'),
 ]
