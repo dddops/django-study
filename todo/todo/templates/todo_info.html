@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
     <h1>{{ todo.title }}</h1>
-    <a>{{ todo.info }}</a>
-</body>
-</html>
+    {% if request.user == todo.user %}
+        <div style="text-align:right">
+            <a href="{% url 'todo_update' todo.pk %}">수정</a>
+            <form action="{% url 'todo_delete' todo.pk %}" method="post" style="display: inline">
+                {% csrf_token %}
+                <button>삭제</button>
+            </form>
+        </div>
+    {% endif %}
+<hr>
+<p>{{ todo.description }}</p>
+
+<a href='{% url 'todo_list' %}'>목록으로 돌아가기</a>
+{% endblock %}

@@ -17,14 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import login
-from totododo import views as tododoviews
+from totododo import views as totododoviews
 from login import views
 
 
 urlpatterns = [
+    path('todo/create', totododoviews.todo_create, name='todo_create'),
+    path('todo/update/<int:pk>', totododoviews.todo_update, name='todo_update'),
+    path('todo/delete/<int:pk>', totododoviews.todo_delete, name='todo_delete'),
+    path('todo/<int:pk>', totododoviews.todo_info, name='todo_info'),
     path('admin/', admin.site.urls),
-    path('', tododoviews.todo_list, name='todo_list'),
-    path('<int:todo_id>/', tododoviews.todo_info),
+    path('', totododoviews.todo_list, name='todo_list'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', login.views.sign_up, name='signup'),
     path('login/', login.views.login, name='login'),

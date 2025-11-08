@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-# Create your models here.
+User = get_user_model()
 
 class Todo(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   title = models.CharField('제목',max_length=50)
   description = models.TextField('설명',)
   start_date = models.DateField('시작일',)
