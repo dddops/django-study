@@ -19,3 +19,7 @@ class Todo(models.Model):
   class Meta:
     verbose_name = 'Todo'
     verbose_name_plural = 'Todos'
+
+  def get_absolute_url(self):
+    from django.urls import reverse
+    return reverse('todo:detail', kwargs={'pk': self.pk})

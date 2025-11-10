@@ -15,12 +15,12 @@ def todo_list(request):
   }
   return render(request, 'todo_list.html', context)
 
-def todo_info(request, pk):
+def todo_detail(request, pk):
   todo = get_object_or_404(Todo,pk=pk)
   context = {
     'todo' : todo
   }
-  return render(request, 'todo_info.html', context)
+  return render(request, 'todo_detail.html', context)
 
 
 @login_required
@@ -30,7 +30,7 @@ def todo_create(request):
     todo = form.save(commit=False)
     todo.user = request.user
     todo.save()
-    return redirect(reverse('todo_info', kwargs={'pk' : todo.pk}))
+    return redirect(reverse('todo:detail', kwargs={'pk' : todo.pk}))
   context = {
     'form' : form
   }
@@ -42,7 +42,7 @@ def todo_update(request, pk):
   form = TodoForm(request.POST or None, instance=todo)
   if form.is_valid():
     todo = form.save()
-    return redirect(reverse('todo_info', kwargs={'pk' : todo.pk}))
+    return redirect(reverse('todo:detail', kwargs={'pk' : todo.pk}))
   context = {
     'form' : form
   }
@@ -53,4 +53,4 @@ def todo_update(request, pk):
 def todo_delete(request, pk):
   todo = get_object_or_404(Todo, pk=pk, user=request.user)
   todo.delete()
-  return redirect(reverse('todo_list'))
+  return redirect(reverse('todo:list'))

@@ -2,12 +2,12 @@
 {% block content %}
 <h1>블로그 목록 {{ count }}</h1>
     <p style="text-align: right">
-        <a href="{% url 'blog_create' %}">생성</a>
+        <a href="{% url 'blog:create' %}">생성</a>
     </p>
-{% for blog in page_object %}
+{% for blog in object_list %}
     <p>
-        <a href="{% url 'blog_detail' blog.pk %}">
-            {{ blog.id }}{{ blog.title }}
+        <a href="{% url 'blog:detail' blog.pk %}">
+            [{{ blog.get_category_display }}] {{ blog.title }}
             <span>
                 ({{ blog.author.username }})
             </span>  - {{ blog.created_at | date:'Y-M-D' }}

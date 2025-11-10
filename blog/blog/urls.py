@@ -15,19 +15,43 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path, include
-from blogapp import views
+from django.views.generic import TemplateView, RedirectView
+from blogapp import views, cb_views
 from member import views as member_views
+
+# class AboutView(TemplateView):
+#     template_name = 'about.html'
+#
+# class TestView(TemplateView):
+#     def get(self, request):
+#         return render(request, 'test_get.html')
+#
+#     def post(self, request):
+#         return render(request, 'test_post.html')
+
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.blog_list, name='blog_list'),
-    path('<int:pk>/', views.blog_detail, name='blog_detail'),
-    path('create/', views.blog_create, name='blog_create'),
-    path('<int:pk>/update/', views.blog_update, name='blog_update'),
-    path('<int:pk>/delete/', views.blog_delete, name='blog_delete'),
+    # FBV blog
+    # path('', views.blog_list, name='blog_list'),
+    # path('<int:pk>/', views.blog_detail, name='blog_detail'),
+    # path('create/', views.blog_create, name='blog_create'),
+    # path('<int:pk>/update/', views.blog_update, name='blog_update'),
+    # path('<int:pk>/delete/', views.blog_delete, name='blog_delete'),
+
+    path('', include('blogapp.urls', namespace='blog')),
+
     #auth
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', member_views.sign_up, name='sign_up'),
+    path('signup/', member_views.sign_up, name='signup'),
     path('login/', member_views.login, name='login'),
+    
+    # path('about/',AboutView.as_view(), name='about'),
+    # path('redirect/'), RedirectView.as_view(pattern_name=('about'), name='redirect'),
+    # path('test/', TestView.as_view(), name='test'),
 ]

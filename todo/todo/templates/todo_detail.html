@@ -3,8 +3,8 @@
     <h1>{{ todo.title }}</h1>
     {% if request.user == todo.user %}
         <div style="text-align:right">
-            <a href="{% url 'todo_update' todo.pk %}">수정</a>
-            <form action="{% url 'todo_delete' todo.pk %}" method="post" style="display: inline">
+            <a href="{% url 'todo:update' todo.pk %}">수정</a>
+            <form action="{% url 'todo:delete' todo.pk %}" method="post" style="display: inline">
                 {% csrf_token %}
                 <button>삭제</button>
             </form>
@@ -13,5 +13,5 @@
 <hr>
 <p>{{ todo.description }}</p>
 
-<a href='{% url 'todo_list' %}'>목록으로 돌아가기</a>
+<a href='{% url 'todo:list' %}'>목록으로 돌아가기</a>
 {% endblock %}

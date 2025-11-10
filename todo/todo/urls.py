@@ -22,12 +22,13 @@ from login import views
 
 
 urlpatterns = [
-    path('todo/create', totododoviews.todo_create, name='todo_create'),
-    path('todo/update/<int:pk>', totododoviews.todo_update, name='todo_update'),
-    path('todo/delete/<int:pk>', totododoviews.todo_delete, name='todo_delete'),
-    path('todo/<int:pk>', totododoviews.todo_info, name='todo_info'),
+    # path('todo/create', totododoviews.todo_create, name='todo_create'),
+    # path('todo/update/<int:pk>', totododoviews.todo_update, name='todo_update'),
+    # path('todo/delete/<int:pk>', totododoviews.todo_delete, name='todo_delete'),
+    # path('todo/<int:pk>', totododoviews.todo_detail, name='todo_detail'),
+    # path('', totododoviews.todo_list, name='todo_list'),
+    path('',include('totododo.urls', namespace='todo')),
     path('admin/', admin.site.urls),
-    path('', totododoviews.todo_list, name='todo_list'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', login.views.sign_up, name='signup'),
     path('login/', login.views.login, name='login'),

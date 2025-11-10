@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -11,7 +12,7 @@ class Blog(models.Model):
     ('dog', '강아지'),
   )
 
-  category = models.CharField('카테고리', max_length=10, choices=CATEGORY_CHOICES)
+  category = models.CharField('카테고리', max_length=10, choices=CATEGORY_CHOICES, default='free')
   title = models.CharField('제목', max_length=100)
   content = models.TextField('본문')
   author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -25,3 +26,6 @@ class Blog(models.Model):
 
   def __str__(self):
     return f'[{self.category}] {self.title}'
+
+  def get_absolute_url(self):
+    return reverse('blog:detail', kwargs={'pk': self.pk})

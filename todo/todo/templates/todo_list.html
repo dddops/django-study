@@ -2,11 +2,11 @@
 {% block content %}
 <h1>todo 목록 {{ count }}</h1>
     <p style="text-align: right">
-        <a href="{% url 'todo_create' %}">생성</a>
+        <a href="{% url 'todo:create' %}">생성</a>
     </p>
-{% for todo in todos %}
+{% for todo in object_list %}
     <p>
-        <a href="{% url 'todo_info' todo.pk %}">
+        <a href="{% url 'todo:detail' todo.pk %}">
             {{ todo.id }} | {{ todo.title }}
             <span>
                 ({{ todo.user.username }})
