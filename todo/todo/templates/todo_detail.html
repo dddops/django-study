@@ -12,6 +12,88 @@
     {% endif %}
 <hr>
 <p>{{ todo.description }}</p>
+<hr>
+    {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'todo:comment_create' pk=todo.pk %}">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+        <div class="text-end">
+            <button class="btn btn-primary">작성</button>
+        </div>
+    </form>
+    {% endif %}
+    <div class="comments-list space-y-4">
+        {% for comment in comments %}
+            <div class="comment-item p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <div id="comment_display_{{ comment.pk }}">
+                    <div class="flex justify-between items-start">
+                        <strong class="text-blue-600 font-semibold">{{ comment.username }}</strong>
+                        <span class="text-xs text-gray-400">{{ comment.created_at|date:"Y.m.d H:i" }}</span>
+                    </div>
+                    <p class="mt-2 text-gray-700 whitespace-pre-wrap">{{ comment.content }}</p>
+
+                    {% if request.user == comment.user %}
+                        <div class="mt-2 text-right space-x-2">
+                            <button
+                                type="button"
+                                data-comment-id="{{ comment.pk }}"
+                                class="js-toggle-edit-form text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                                수정
+                            </button>
+                            <form method="post" action="{% url 'todo:comment_delete' pk=comment.pk %}" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" class="text-sm text-red-600 hover:text-red-800 font-medium ml-2"
+                                    onclick="return confirm('댓글을 삭제하시겠습니까?');">
+                                    삭제
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div id="comment_edit_form_{{ comment.pk }}" class="hidden mt-3 p-3 border border-yellow-300 rounded-lg bg-yellow-50">
+                    <form method="post" action="{% url 'todo:comment_update' pk=comment.pk %}">
+                        {% csrf_token %}
+                        {{ comment_form.content.label_tag }}
+                        {{ comment_form.content }}
+
+                        <div class="flex justify-end space-x-2 mt-3">
+                            <button type="submit" class="px-3 py-1 text-sm bg-green-500 rounded-md hover:bg-green-600">
+                                저장
+                            </button>
+                            <button type="button"
+                                    data-comment-id="{{ comment.pk }}"
+                                    class="js-toggle-edit-form px-3 py-1 text-sm text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                                취소
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        {% empty %}
+            <p class="text-gray-500 italic">아직 등록된 댓글이 없습니다.</p>
+        {% endfor %}
+    </div>
+
+{% include 'pagination.html' with fragment='comment_wrapper' %}
 
 <a href='{% url 'todo:list' %}'>목록으로 돌아가기</a>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleButtons = document.querySelectorAll('.js-toggle-edit-form');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const commentId = e.currentTarget.dataset.commentId;
+                const editForm = document.getElementById(`comment_edit_form_${commentId}`);
+
+                if (editForm) {
+                    editForm.classList.toggle('hidden');
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

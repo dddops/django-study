@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django_extensions.db.models import TimeStampedModel
 
 User = get_user_model()
 
@@ -23,3 +24,18 @@ class Todo(models.Model):
   def get_absolute_url(self):
     from django.urls import reverse
     return reverse('todo:detail', kwargs={'pk': self.pk})
+
+
+class Comment(TimeStampedModel):
+ todo = models.ForeignKey(Todo, on_delete=models.CASCADE)
+ content = models.TextField('댓글', max_length=100)
+ user = models.ForeignKey(User, on_delete=models.CASCADE)
+ created_at = models.DateTimeField(auto_now_add=True)
+
+ class Meta:
+    verbose_name = 'Comment'
+    verbose_name_plural = 'Comments'
+    ordering = ['-created_at']
+
+ def __str__(self):
+   return f'[{self.todo.title}] 댓글'
