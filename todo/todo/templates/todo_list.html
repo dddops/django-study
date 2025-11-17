@@ -7,6 +7,9 @@
 {% for todo in object_list %}
     <p>
         <a href="{% url 'todo:detail' todo.pk %}">
+            {% if todo.get_thumbnail_image_url %}
+                <img src="{{ todo.get_thumbnail_image_url }}" alt="" class="col-2">
+            {% endif %}
             {{ todo.id }} | {{ todo.title }}
             <span>
                 ({{ todo.user.username }})

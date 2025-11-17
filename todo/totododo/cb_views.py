@@ -9,7 +9,7 @@ from totododo.models import Todo, Comment
 
 
 class TodoListView (ListView):
-  queryset = Todo.objects.all()
+  queryset = Todo.objects.all().order_by('-id')
   template_name = 'todo_list.html'
   paginate_by = 10
 

@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.13"
 ipython = "^9.6.0"
 django-extensions = "^4.1"
+django-cleanup = "^9.0.0"
 
 
 [build-system]

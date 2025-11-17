@@ -11,7 +11,10 @@
         </div>
     {% endif %}
 <hr>
-<p>{{ todo.description }}</p>
+{% if todo.image %}
+    <img src="{{ todo.image.url }}" alt="" class="w-100">
+{% endif %}
+<p>{{ todo.description | safe }}</p>
 <hr>
     {% if request.user.is_authenticated %}
     <form method="post" action="{% url 'todo:comment_create' pk=todo.pk %}">

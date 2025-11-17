@@ -8,13 +8,17 @@
 {% for blog in object_list %}
     <div class="my-1">
         <a href="{% url 'blog:detail' blog.pk %}"
-           class="link-primary link-offset-2 link-underline-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-            {{ blog.title }}
+           class="link-primary link-offset-2 link-underline-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover row">
+            {% if blog.image %}
+            <img src="{{ blog.image.url }}" class="col-2">
+             {% endif %}
+            <span class="col-10">
             [{{ blog.get_category_display }}]
             {{ blog.title }}
-            <span>
+
                 ({{ blog.author.username }})
-            </span>  - {{ blog.created_at | date:'Y-M-D' }}
+              - {{ blog.created_at | date:'Y-M-D' }}
+            </span>
         </a>
     </div>
 {% endfor %}
